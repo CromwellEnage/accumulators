@@ -203,7 +203,7 @@ struct extractor
         BOOST_MPL_ASSERT((detail::is_accumulator_set<AccumulatorSet>));                 \
         typedef typename as_feature<Feature>::type feature_type;                        \
         return extract_result<feature_type>(acc                                         \
-        BOOST_PP_CAT(BOOST_PP_ENUM_TRAILING_, z)(n, _, BOOST_ACCUMULATORS_EXTRACTOR_FUN_PARAM));\
+        BOOST_PP_CAT(BOOST_PP_ENUM_TRAILING_, z)(n, BOOST_ACCUMULATORS_EXTRACTOR_FUN_PARAM, _));\
     }
 
     BOOST_PP_REPEAT_FROM_TO(
@@ -317,7 +317,7 @@ struct extractor
     {                                                                                               \
         typedef BOOST_ACCUMULATORS_MAKE_FEATURE(Tag, Feature, ParamsSeq) feature_type;              \
         return boost::accumulators::extractor<feature_type>()(arg1                                  \
-        BOOST_PP_CAT(BOOST_PP_ENUM_TRAILING_, z)(n, _, BOOST_ACCUMULATORS_EXTRACTOR_FUN_PARAM));    \
+        BOOST_PP_CAT(BOOST_PP_ENUM_TRAILING_, z)(n, BOOST_ACCUMULATORS_EXTRACTOR_FUN_PARAM, _));    \
     }
 
 /// INTERNAL ONLY
