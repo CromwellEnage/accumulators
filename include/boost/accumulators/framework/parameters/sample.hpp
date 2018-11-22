@@ -14,7 +14,7 @@
 namespace boost { namespace accumulators
 {
 
-BOOST_PARAMETER_NAME((sample, tag) in(sample))
+BOOST_PARAMETER_NAME((sample, tag) sample)
 BOOST_ACCUMULATORS_IGNORE_GLOBAL(sample)
 
 }} // namespace boost::accumulators

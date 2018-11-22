@@ -15,7 +15,7 @@ namespace boost { namespace accumulators
 {
 
 // The weight accumulator
-BOOST_PARAMETER_NAME((weights, tag) in(weights))
+BOOST_PARAMETER_NAME((weights, tag) weights)
 BOOST_ACCUMULATORS_IGNORE_GLOBAL(weights)
 
 }} // namespace boost::accumulators

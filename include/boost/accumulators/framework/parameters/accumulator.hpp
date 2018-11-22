@@ -14,7 +14,7 @@
 namespace boost { namespace accumulators
 {
 
-BOOST_PARAMETER_NAME((accumulator, tag) in(accumulator))
+BOOST_PARAMETER_NAME((accumulator, tag) accumulator)
 BOOST_ACCUMULATORS_IGNORE_GLOBAL(accumulator)
 
 }} // namespace boost::accumulators

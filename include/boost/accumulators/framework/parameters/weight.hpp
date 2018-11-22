@@ -15,7 +15,7 @@ namespace boost { namespace accumulators
 {
 
 // The weight of a single sample
-BOOST_PARAMETER_NAME((weight, tag) in(weight))
+BOOST_PARAMETER_NAME((weight, tag) weight)
 BOOST_ACCUMULATORS_IGNORE_GLOBAL(weight)
 
 }} // namespace boost::accumulators
