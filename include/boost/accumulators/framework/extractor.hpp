@@ -190,10 +190,6 @@ struct extractor
     /// INTERNAL ONLY
     ///
 #define BOOST_ACCUMULATORS_EXTRACTOR_FUN_OP(z, n, _)                                    \
-    template<BOOST_PP_ENUM_PARAMS_Z(z, n, typename A)>                                  \
-    struct result<this_type(BOOST_PP_ENUM_PARAMS_Z(z, n, A))>                           \
-      : detail::extractor_result<A1, Feature>                                           \
-    {};                                                                                 \
     template<                                                                           \
         typename AccumulatorSet                                                         \
         BOOST_PP_ENUM_TRAILING_PARAMS_Z(z, n, typename A)                               \
