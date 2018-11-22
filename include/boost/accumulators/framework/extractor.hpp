@@ -144,11 +144,12 @@ struct extractor
 #ifndef BOOST_NO_CXX11_RVALUE_REFERENCES
     template<typename AccumulatorSet, typename A1>
     typename detail::extractor_result<AccumulatorSet, Feature>::type
-    operator ()(AccumulatorSet const &acc, A1 &&a1) const
+    operator ()(AccumulatorSet &&acc, A1 &&a1) const
     {
         BOOST_MPL_ASSERT((detail::is_accumulator_set<AccumulatorSet>));
         typedef typename as_feature<Feature>::type feature_type;
-        return extract_result<feature_type>(acc, std::forward<A1>(a1));
+        AccumulatorSet const& acc_c = acc;
+        return extract_result<feature_type>(acc_c, std::forward<A1>(a1));
     }
 #endif
 
@@ -196,13 +197,14 @@ struct extractor
     >                                                                                   \
     typename detail::extractor_result<AccumulatorSet, Feature>::type                    \
     operator ()(                                                                        \
-        AccumulatorSet const &acc                                                       \
+        AccumulatorSet &&acc                                                            \
         BOOST_PP_ENUM_TRAILING_BINARY_PARAMS_Z(z, n, A, &&a)                            \
     ) const                                                                             \
     {                                                                                   \
         BOOST_MPL_ASSERT((detail::is_accumulator_set<AccumulatorSet>));                 \
         typedef typename as_feature<Feature>::type feature_type;                        \
-        return extract_result<feature_type>(acc                                         \
+        AccumulatorSet const &acc_c = acc;                                              \
+        return extract_result<feature_type>(acc_c                                       \
         BOOST_PP_CAT(BOOST_PP_ENUM_TRAILING_, z)(n, BOOST_ACCUMULATORS_EXTRACTOR_FUN_PARAM, _));\
     }
 
@@ -228,7 +230,7 @@ struct extractor
     ///
     template<typename AccumulatorSet, typename A1, typename A2, ...>
     typename detail::extractor_result<AccumulatorSet, Feature>::type
-    operator ()(AccumulatorSet const &acc, A1 &&a1, A2 &&a2, ...);
+    operator ()(AccumulatorSet &&acc, A1 &&a1, A2 &&a2, ...);
     #endif
 };
 
@@ -313,10 +315,11 @@ struct extractor
         Arg1                                                                                        \
       , BOOST_ACCUMULATORS_MAKE_FEATURE(Tag, Feature, ParamsSeq)                                    \
     >::type                                                                                         \
-    Feature(Arg1 const &arg1 BOOST_PP_ENUM_TRAILING_BINARY_PARAMS_Z(z, n, A, &&a) )                 \
+    Feature(Arg1 &&arg1 BOOST_PP_ENUM_TRAILING_BINARY_PARAMS_Z(z, n, A, &&a) )                      \
     {                                                                                               \
         typedef BOOST_ACCUMULATORS_MAKE_FEATURE(Tag, Feature, ParamsSeq) feature_type;              \
-        return boost::accumulators::extractor<feature_type>()(arg1                                  \
+        Arg1 const &arg1_c = arg1;                                                                  \
+        return boost::accumulators::extractor<feature_type>()(arg1_c                                \
         BOOST_PP_CAT(BOOST_PP_ENUM_TRAILING_, z)(n, BOOST_ACCUMULATORS_EXTRACTOR_FUN_PARAM, _));    \
     }
 
