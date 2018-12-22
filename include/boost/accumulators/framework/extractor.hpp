@@ -22,8 +22,11 @@
 #include <boost/preprocessor/repetition/repeat.hpp>
 #include <boost/preprocessor/repetition/repeat_from_to.hpp>
 #include <boost/parameter/binding.hpp>
-#include <boost/mpl/apply.hpp>
+#include <boost/mpl/bool.hpp>
+#include <boost/mpl/if.hpp>
 #include <boost/mpl/eval_if.hpp>
+#include <boost/mpl/apply.hpp>
+#include <boost/type_traits/remove_const.hpp>
 #include <boost/type_traits/remove_reference.hpp>
 #include <boost/accumulators/accumulators_fwd.hpp>
 #include <boost/accumulators/framework/parameters/accumulator.hpp>
@@ -46,14 +49,24 @@ namespace detail
     struct accumulator_set_result
     {
         typedef typename as_feature<Feature>::type feature_type;
-        typedef typename mpl::apply<AccumulatorSet, feature_type>::type::result_type type;
+        typedef typename mpl::apply<
+            typename boost::remove_const<
+                typename boost::remove_reference<AccumulatorSet>::type
+            >::type
+          , feature_type
+        >::type::result_type type;
     };
 
     template<typename Args, typename Feature>
     struct argument_pack_result
       : accumulator_set_result<
-            typename remove_reference<
-                typename parameter::binding<Args, tag::accumulator>::type
+            typename boost::remove_reference<
+                typename parameter::binding<Args
+                    typename boost::remove_const<
+                        typename boost::remove_reference<Args>::type
+                    >::type
+                  , tag::accumulator
+                >::type
             >::type
           , Feature
         >

@@ -9,6 +9,8 @@
 #define BOOST_ACCUMULATORS_FRAMEWORK_ACCUMULATOR_SET_HPP_EAN_28_10_2005
 
 #include <boost/version.hpp>
+#include <boost/mpl/bool.hpp>
+#include <boost/mpl/if.hpp>
 #include <boost/mpl/apply.hpp>
 #include <boost/mpl/assert.hpp>
 #include <boost/mpl/protect.hpp>
@@ -84,12 +86,16 @@ namespace detail
     // is_accumulator_set
     template<typename T>
     struct is_accumulator_set
-      : boost::is_base_of<
-            accumulator_set_base
-          , typename boost::remove_const<
-                typename boost::remove_reference<T>::type
-            >::type
-        >
+      : mpl::if_<
+            boost::is_base_of<
+                accumulator_set_base
+              , typename boost::remove_const<
+                    typename boost::remove_reference<T>::type
+                >::type
+            >
+          , mpl::true_
+          , mpl::false_
+        >::type
     {
     };
 
