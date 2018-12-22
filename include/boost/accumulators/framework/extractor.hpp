@@ -61,7 +61,7 @@ namespace detail
     struct argument_pack_result
       : accumulator_set_result<
             typename boost::remove_reference<
-                typename parameter::binding<Args
+                typename parameter::binding<
                     typename boost::remove_const<
                         typename boost::remove_reference<Args>::type
                     >::type
