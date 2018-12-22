@@ -15,7 +15,9 @@
 #include <boost/mpl/identity.hpp>
 #include <boost/mpl/is_sequence.hpp>
 #include <boost/type_traits/is_same.hpp>
-#include <boost/type_traits/is_base_and_derived.hpp>
+#include <boost/type_traits/is_base_of.hpp>
+#include <boost/type_traits/remove_const.hpp>
+#include <boost/type_traits/remove_reference.hpp>
 #include <boost/parameter/parameters.hpp>
 #include <boost/preprocessor/repetition/repeat_from_to.hpp>
 #include <boost/preprocessor/repetition/enum_binary_params.hpp>
@@ -82,7 +84,12 @@ namespace detail
     // is_accumulator_set
     template<typename T>
     struct is_accumulator_set
-      : is_base_and_derived<accumulator_set_base, T>
+      : boost::is_base_of<
+            accumulator_set_base
+          , typename boost::remove_const<
+                typename boost::remove_reference<T>::type
+            >::type
+        >
     {
     };
 
