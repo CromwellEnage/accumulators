@@ -68,6 +68,7 @@ namespace detail
         return accumulator_visitor<Args>(args);
     }
 
+#if 0
     typedef
         parameter::parameters<
             parameter::required<tag::accumulator>
@@ -75,6 +76,7 @@ namespace detail
           // ... and others which are not specified here...
         >
     accumulator_params;
+#endif
 
     ///////////////////////////////////////////////////////////////////////////////
     // accumulator_set_base
@@ -153,13 +155,13 @@ struct accumulator_set
       : accumulators(
             detail::make_acc_list(
                 accumulators_mpl_vector()
-              , detail::accumulator_params()(*this)
+              , (boost::accumulators::accumulator = *this)
             )
         )
     {
         // Add-ref the Features that the user has specified
         this->template visit_if<detail::contains_feature_of_<Features> >(
-            detail::make_add_ref_visitor(detail::accumulator_params()(*this))
+            detail::make_add_ref_visitor(boost::accumulators::accumulator = *this)
         );
     }
 
@@ -171,13 +173,13 @@ struct accumulator_set
       : accumulators(
             detail::make_acc_list(
                 accumulators_mpl_vector()
-              , detail::accumulator_params()(*this, a1)
+              , (boost::accumulators::accumulator = *this, a1)
             )
         )
     {
         // Add-ref the Features that the user has specified
         this->template visit_if<detail::contains_feature_of_<Features> >(
-            detail::make_add_ref_visitor(detail::accumulator_params()(*this))
+            detail::make_add_ref_visitor(boost::accumulators::accumulator = *this)
         );
     }
 
@@ -191,15 +193,15 @@ struct accumulator_set
       : accumulators(                                                                   \
             detail::make_acc_list(                                                      \
                 accumulators_mpl_vector()                                               \
-              , detail::accumulator_params()(                                           \
-                    *this BOOST_PP_ENUM_TRAILING_PARAMS_Z(z, n, a)                      \
+              , (boost::accumulators::accumulator = *this                               \
+                    BOOST_PP_ENUM_TRAILING_PARAMS_Z(z, n, a)                            \
                 )                                                                       \
             )                                                                           \
         )                                                                               \
     {                                                                                   \
         /* Add-ref the Features that the user has specified */                          \
         this->template visit_if<detail::contains_feature_of_<Features> >(               \
-            detail::make_add_ref_visitor(detail::accumulator_params()(*this))           \
+            detail::make_add_ref_visitor(boost::accumulators::accumulator = *this)      \
         );                                                                              \
     }
 
@@ -252,7 +254,7 @@ struct accumulator_set
     {
         this->visit(
             detail::make_accumulator_visitor(
-                detail::accumulator_params()(*this)
+                boost::accumulators::accumulator = *this
             )
         );
     }
@@ -262,7 +264,7 @@ struct accumulator_set
     {
         this->visit(
             detail::make_accumulator_visitor(
-                detail::accumulator_params()(*this, a1)
+                (boost::accumulators::accumulator = *this, a1)
             )
         );
     }
@@ -277,7 +279,7 @@ struct accumulator_set
     {                                                                                   \
         this->visit(                                                                    \
             detail::make_accumulator_visitor(                                           \
-                detail::accumulator_params()(                                           \
+                (boost::accumulators::accumulator = *this                               \
                     *this BOOST_PP_ENUM_TRAILING_PARAMS_Z(z, n, a)                      \
                 )                                                                       \
             )                                                                           \
@@ -342,12 +344,12 @@ struct accumulator_set
         the_feature;
 
         (*fusion::find_if<detail::matches_feature<Feature> >(this->accumulators))
-            .drop(detail::accumulator_params()(*this));
+            .drop(boost::accumulators::accumulator = *this);
 
         // Also drop accumulators that this feature depends on
         typedef typename the_feature::dependencies dependencies;
         this->template visit_if<detail::contains_feature_of_<dependencies> >(
-            detail::make_drop_visitor(detail::accumulator_params()(*this))
+            detail::make_drop_visitor(boost::accumulators::accumulator = *this)
         );
     }
 
@@ -396,8 +398,8 @@ find_accumulator(AccumulatorSet const &acc)
     )                                                                       \
     {                                                                       \
         return find_accumulator<Feature>(acc).result(                       \
-            detail::accumulator_params()(                                   \
-                acc                                                         \
+            (                                                               \
+                boost::accumulators::accumulator = acc                      \
                 BOOST_PP_ENUM_TRAILING_PARAMS_Z(z, n, a)                    \
             )                                                               \
         );                                                                  \
