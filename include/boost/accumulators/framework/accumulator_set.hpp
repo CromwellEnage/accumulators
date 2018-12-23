@@ -178,7 +178,7 @@ struct accumulator_set
       , typename boost::enable_if<
             parameter::is_argument_pack<A1>
           , detail::_enabler
-        >::type = detail::_accumulator_set_enabler()
+        >::type = detail::_enabler()
     ) : accumulators(
             detail::make_acc_list(
                 accumulators_mpl_vector()
@@ -201,7 +201,7 @@ struct accumulator_set
       , typename boost::disable_if<
             parameter::is_argument_pack<A1>
           , detail::_enabler
-        >::type = detail::_accumulator_set_enabler()
+        >::type = detail::_enabler()
     ) : accumulators(
             detail::make_acc_list(
                 accumulators_mpl_vector()
