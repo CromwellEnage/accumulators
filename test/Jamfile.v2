@@ -60,14 +60,14 @@ alias accumulators_tests_with_gets
     :
     : <target-os>linux
       <toolset>clang
-      <toolset-clang:version>3.8
+      <cxxstd>14
     ;
 
 alias accumulators_tests_with_gets
     :
     : <target-os>linux
       <toolset>clang
-      <toolset-clang:version>3.9
+      <cxxstd>1z
     ;
 
 alias accumulators_tests_with_gets
@@ -90,15 +90,22 @@ alias accumulators_test_valarray
     :
     : <target-os>linux
       <toolset>clang
-      <toolset-clang:version>3.8
+#      <cxxstd>14
     ;
 
-alias accumulators_test_valarray
-    :
-    : <target-os>linux
-      <toolset>clang
-      <toolset-clang:version>3.9
-    ;
+#alias accumulators_test_valarray
+#    :
+#    : <target-os>linux
+#      <toolset>clang
+#      <cxxstd>1z
+#    ;
+
+#alias accumulators_test_valarray
+#    :
+#    : <target-os>linux
+#      <toolset>clang
+# TODO: Find the correct attribute that detects libc++.
+#    ;
 
 alias accumulators_test_valarray
     :
@@ -113,14 +120,14 @@ alias accumulators_test_tail_variate_means
     :
     : <target-os>linux
       <toolset>clang
-      <toolset-clang:version>3.8
+      <cxxstd>14
     ;
 
 alias accumulators_test_tail_variate_means
     :
     : <target-os>linux
       <toolset>clang
-      <toolset-clang:version>3.9
+      <cxxstd>1z
     ;
 
 alias accumulators_test_tail_variate_means
@@ -144,14 +151,14 @@ alias accumulators_tests_pot_quantile_and_weighted_tail
     :
     : <target-os>linux
       <toolset>clang
-      <toolset-clang:version>3.8
+      <cxxstd>14
     ;
 
 alias accumulators_tests_pot_quantile_and_weighted_tail
     :
     : <target-os>linux
       <toolset>clang
-      <toolset-clang:version>3.9
+      <cxxstd>1z
     ;
 
 alias accumulators_tests_pot_quantile_and_weighted_tail
