@@ -27,7 +27,7 @@
 #include <boost/preprocessor/repetition/enum_params.hpp>
 #include <boost/preprocessor/repetition/enum_binary_params.hpp>
 #include <boost/preprocessor/repetition/enum_trailing_params.hpp>
-include <boost/accumulators/accumulators_fwd.hpp>
+#include <boost/accumulators/accumulators_fwd.hpp>
 #include <boost/accumulators/framework/depends_on.hpp>
 #include <boost/accumulators/framework/accumulator_concept.hpp>
 #include <boost/accumulators/framework/parameters/accumulator.hpp>
@@ -510,6 +510,10 @@ find_accumulator(AccumulatorSet const &acc)
     extract_result(                                                         \
         AccumulatorSet const &acc                                           \
         BOOST_PP_ENUM_TRAILING_BINARY_PARAMS_Z(z, n, A, const &a)           \
+      , typename boost::enable_if<                                          \
+            parameter::is_argument_pack<A0>                                 \
+          , detail::_accumulator_set_enabler                                \
+        >::type = detail::_accumulator_set_enabler()                        \
     )                                                                       \
     {                                                                       \
         return find_accumulator<Feature>(acc).result(                       \
@@ -518,6 +522,26 @@ find_accumulator(AccumulatorSet const &acc)
                 BOOST_PP_ENUM_TRAILING_PARAMS_Z(z, n, a)                    \
             )                                                               \
         );                                                                  \
+    }                                                                       \
+    template<                                                               \
+        typename Feature                                                    \
+      , typename AccumulatorSet                                             \
+        BOOST_PP_ENUM_TRAILING_PARAMS_Z(z, n, typename A)                   \
+    >                                                                       \
+    typename mpl::apply<AccumulatorSet, Feature>::type::result_type         \
+    extract_result(                                                         \
+        AccumulatorSet const &acc                                           \
+        BOOST_PP_ENUM_TRAILING_BINARY_PARAMS_Z(z, n, A, const &a)           \
+      , typename boost::disable_if<                                         \
+            parameter::is_argument_pack<A0>                                 \
+          , detail::_accumulator_set_enabler                                \
+        >::type = detail::_accumulator_set_enabler()                        \
+    )                                                                       \
+    {                                                                       \
+        return find_accumulator<Feature>(acc).result((                      \
+            boost::accumulators::accumulator = acc                          \
+          , boost::accumulators::sample = BOOST_PP_ENUM_PARAMS_Z(z, n, a)   \
+        ));                                                                 \
     }
 
 BOOST_PP_REPEAT(
