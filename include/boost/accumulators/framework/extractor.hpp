@@ -172,12 +172,6 @@ struct extractor
     template<typename AccumulatorSet, typename A1, typename A2, ...>
     typename detail::extractor_result<AccumulatorSet, Feature>::type
     operator ()(AccumulatorSet const &acc, A1 const &a1, A2 const &a2, ...);
-
-    /// \overload
-    ///
-    template<typename AccumulatorSet, typename A1, typename A2, ...>
-    typename detail::extractor_result<AccumulatorSet, Feature>::type
-    operator ()(AccumulatorSet &&acc, A1 &&a1, A2 &&a2, ...);
     #endif
 };
 
