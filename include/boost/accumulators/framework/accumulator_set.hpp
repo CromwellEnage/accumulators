@@ -495,6 +495,15 @@ find_accumulator(AccumulatorSet const &acc)
     return acc.template extract<Feature>();
 }
 
+template<typename Feature, typename AccumulatorSet>
+typename mpl::apply<AccumulatorSet, Feature>::type::result_type
+extract_result(AccumulatorSet const &acc)
+{
+    return find_accumulator<Feature>(acc).result(
+        boost::accumulators::accumulator = acc
+    );
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // extract_result
 //   extract a result from an accumulator set
@@ -544,8 +553,9 @@ find_accumulator(AccumulatorSet const &acc)
         ));                                                                 \
     }
 
-BOOST_PP_REPEAT(
-    BOOST_PP_INC(BOOST_ACCUMULATORS_MAX_ARGS)
+BOOST_PP_REPEAT_FROM_TO(
+    1
+  , BOOST_PP_INC(BOOST_ACCUMULATORS_MAX_ARGS)
   , BOOST_ACCUMULATORS_EXTRACT_RESULT_FUN
   , _
 )
