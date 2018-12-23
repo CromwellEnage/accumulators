@@ -177,7 +177,7 @@ struct accumulator_set
         A1 const &a1
       , typename boost::enable_if<
             parameter::is_argument_pack<A1>
-          , detail::_accumulator_set_enabler
+          , detail::_enabler
         >::type = detail::_accumulator_set_enabler()
     ) : accumulators(
             detail::make_acc_list(
@@ -200,7 +200,7 @@ struct accumulator_set
         A1 const &a1
       , typename boost::disable_if<
             parameter::is_argument_pack<A1>
-          , detail::_accumulator_set_enabler
+          , detail::_enabler
         >::type = detail::_accumulator_set_enabler()
     ) : accumulators(
             detail::make_acc_list(
@@ -228,8 +228,8 @@ struct accumulator_set
         BOOST_PP_ENUM_BINARY_PARAMS_Z(z, n, A, const &a)                                \
       , typename boost::enable_if<                                                      \
             parameter::is_argument_pack<A0>                                             \
-          , detail::_accumulator_set_enabler                                            \
-        >::type = detail::_accumulator_set_enabler()                                    \
+          , detail::_enabler                                                            \
+        >::type = detail::_enabler()                                                    \
     ) : accumulators(                                                                   \
             detail::make_acc_list(                                                      \
                 accumulators_mpl_vector()                                               \
@@ -249,8 +249,8 @@ struct accumulator_set
         BOOST_PP_ENUM_BINARY_PARAMS_Z(z, n, A, const &a)                                \
       , typename boost::disable_if<                                                     \
             parameter::is_argument_pack<A0>                                             \
-          , detail::_accumulator_set_enabler                                            \
-        >::type = detail::_accumulator_set_enabler()                                    \
+          , detail::_enabler                                                            \
+        >::type = detail::_enabler()                                                    \
     ) : accumulators(                                                                   \
             detail::make_acc_list(                                                      \
                 accumulators_mpl_vector()                                               \
