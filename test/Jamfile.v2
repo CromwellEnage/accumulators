@@ -177,6 +177,20 @@ alias accumulators_test_weighted_tail_variate_means
 
 alias accumulators_test_weighted_tail_variate_means
     :
+    : <target-os>linux
+      <toolset>clang
+      <cxxstd>14
+    ;
+
+alias accumulators_test_weighted_tail_variate_means
+    :
+    : <target-os>linux
+      <toolset>clang
+      <cxxstd>1z
+    ;
+
+alias accumulators_test_weighted_tail_variate_means
+    :
     : <toolset>msvc
       <toolset-msvc:version>14.0
     ;
