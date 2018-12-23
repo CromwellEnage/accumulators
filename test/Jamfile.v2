@@ -83,7 +83,7 @@ alias accumulators_tests_pot_quantile_and_weighted_tail
     :
     : <target-os>linux
       <toolset>gcc
-      <toolset-gcc:version>4.4
+      <toolset-gcc:version>4.4.7
     ;
 
 test-suite "accumulators"
