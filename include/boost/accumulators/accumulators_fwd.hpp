@@ -165,43 +165,10 @@ BOOST_PP_REPEAT_FROM_TO(
 
 #undef BOOST_ACCUMULATORS_EXTRACT_RESULT_FWD
 
-#ifndef BOOST_NO_CXX11_RVALUE_REFERENCES
-
-/// INTERNAL ONLY
-///
-#define BOOST_ACCUMULATORS_EXTRACT_RESULT_FWD(z, n, _)                      \
-    template<                                                               \
-        typename Feature                                                    \
-      , typename AccumulatorSet                                             \
-        BOOST_PP_ENUM_TRAILING_PARAMS_Z(z, n, typename A)                   \
-    >                                                                       \
-    typename mpl::apply<AccumulatorSet, Feature>::type::result_type         \
-    extract_result(                                                         \
-        AccumulatorSet const &acc                                           \
-        BOOST_PP_ENUM_TRAILING_BINARY_PARAMS_Z(z, n, A, &&a)                \
-    );
-
-/// INTERNAL ONLY
-///
-BOOST_PP_REPEAT_FROM_TO(
-    2
-  , BOOST_PP_INC(BOOST_ACCUMULATORS_MAX_ARGS)
-  , BOOST_ACCUMULATORS_EXTRACT_RESULT_FWD
-  , _
-)
-
-#undef BOOST_ACCUMULATORS_EXTRACT_RESULT_FWD
-
-#endif  // BOOST_NO_CXX11_RVALUE_REFERENCES
-
 #ifdef BOOST_ACCUMULATORS_DOXYGEN_INVOKED
 template<typename Feature, typename AccumulatorSet, typename A1, typename A2 ...>
 typename mpl::apply<AccumulatorSet, Feature>::type::result_type
 extract_result(AccumulatorSet const &acc, A1 const &a1, A2 const &a2 ...);
-
-template<typename Feature, typename AccumulatorSet, typename A1, typename A2 ...>
-typename mpl::apply<AccumulatorSet, Feature>::type::result_type
-extract_result(AccumulatorSet const &acc, A1 &&a1, A2 &&a2 ...);
 #endif
 
 namespace impl
@@ -226,6 +193,9 @@ namespace detail
     struct is_accumulator_set;
 
     inline void ignore_variable(void const *) {}
+}
+
+}} // namespace boost::accumulators
 
 #define BOOST_ACCUMULATORS_IGNORE_GLOBAL(X)                             \
     namespace detail                                                    \
@@ -239,9 +209,6 @@ namespace detail
         };                                                              \
     }                                                                   \
     /**/
-}
-
-}} // namespace boost::accumulators
 
 #include <boost/parameter/nested_keyword.hpp>
 
