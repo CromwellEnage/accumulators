@@ -178,7 +178,7 @@ struct accumulator_set
       , typename boost::enable_if<
             parameter::is_argument_pack<A1>
           , detail::_enabler
-        >::type = detail::_enabler()
+        >::type
     ) : accumulators(
             detail::make_acc_list(
                 accumulators_mpl_vector()
@@ -201,7 +201,7 @@ struct accumulator_set
       , typename boost::disable_if<
             parameter::is_argument_pack<A1>
           , detail::_enabler
-        >::type = detail::_enabler()
+        >::type
     ) : accumulators(
             detail::make_acc_list(
                 accumulators_mpl_vector()
@@ -483,7 +483,7 @@ extract_result(AccumulatorSet const &acc)
       , typename boost::enable_if<                                          \
             parameter::is_argument_pack<A0>                                 \
           , detail::_enabler                                                \
-        >::type = detail::_enabler()                                        \
+        >::type                                                             \
     )                                                                       \
     {                                                                       \
         return find_accumulator<Feature>(acc).result(                       \
@@ -505,7 +505,7 @@ extract_result(AccumulatorSet const &acc)
       , typename boost::disable_if<                                         \
             parameter::is_argument_pack<A0>                                 \
           , detail::_enabler                                                \
-        >::type = detail::_enabler()                                        \
+        >::type                                                             \
     )                                                                       \
     {                                                                       \
         return find_accumulator<Feature>(acc).result((                      \
