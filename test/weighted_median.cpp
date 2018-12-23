@@ -27,27 +27,35 @@ void test_stat()
     double mu = 1.;
     double sigma_narrow = 0.01;
     double sigma = 1.;
+    int cache_size = 10000;
+    int num_bins = 1000;
+    int num_cells = 100;
     boost::lagged_fibonacci607 rng;
     boost::normal_distribution<> mean_sigma_narrow(mu,sigma_narrow);
     boost::variate_generator<boost::lagged_fibonacci607&, boost::normal_distribution<> > normal_narrow(rng, mean_sigma_narrow);
 
     accumulator_set<double, stats<tag::weighted_median(with_p_square_quantile) >, double > acc;
     accumulator_set<double, stats<tag::weighted_median(with_density) >, double >
-        acc_dens( density_cache_size = 10000, density_num_bins = 1000 );
+        acc_dens( density_cache_size = cache_size, density_num_bins = num_bins );
     accumulator_set<double, stats<tag::weighted_median(with_p_square_cumulative_distribution) >, double >
-        acc_cdist( p_square_cumulative_distribution_num_cells = 100 );
+        acc_cdist( p_square_cumulative_distribution_num_cells = num_cells );
 
 
     for (std::size_t i=0; i<100000; ++i)
     {
         double sample = normal_narrow();
-        acc(sample, weight = std::exp(0.5 * (sample - mu) * (sample - mu) * ( 1./sigma_narrow/sigma_narrow - 1./sigma/sigma )));
-        acc_dens(sample, weight = std::exp(0.5 * (sample - mu) * (sample - mu) * ( 1./sigma_narrow/sigma_narrow - 1./sigma/sigma )));
-        acc_cdist(sample, weight = std::exp(0.5 * (sample - mu) * (sample - mu) * ( 1./sigma_narrow/sigma_narrow - 1./sigma/sigma )));
+        double w = std::exp(
+            0.5 * (sample - mu) * (sample - mu) * (
+                1./sigma_narrow/sigma_narrow - 1./sigma/sigma
+            )
+        );
+        acc(sample, weight = w);
+        acc_dens(sample, weight = w);
+        acc_cdist(sample, weight = w);
     }
 
     BOOST_CHECK_CLOSE(1., weighted_median(acc), 2);
-#if 0
+#if 1
     BOOST_CHECK_CLOSE(1., weighted_median(acc_dens), 3);
     BOOST_CHECK_CLOSE(1., weighted_median(acc_cdist), 3);
 #endif
