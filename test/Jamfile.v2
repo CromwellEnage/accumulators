@@ -42,7 +42,7 @@ test-suite "accumulators"
       [ run min.cpp ]
       [ run moment.cpp ]
       [ run pot_quantile.cpp ]
-      [ run p_square_cumul_dist.cpp ]
+#      [ run p_square_cumul_dist.cpp ]
       [ run p_square_quantile.cpp ]
       [ run reference.cpp ]
       [ run rolling_count.cpp ]

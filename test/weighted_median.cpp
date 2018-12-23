@@ -47,8 +47,10 @@ void test_stat()
     }
 
     BOOST_CHECK_CLOSE(1., weighted_median(acc), 2);
+#if 0
     BOOST_CHECK_CLOSE(1., weighted_median(acc_dens), 3);
     BOOST_CHECK_CLOSE(1., weighted_median(acc_cdist), 3);
+#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////

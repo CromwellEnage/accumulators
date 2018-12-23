@@ -22,7 +22,6 @@
 #include <boost/type_traits/remove_reference.hpp>
 #include <boost/core/enable_if.hpp>
 #include <boost/parameter/is_argument_pack.hpp>
-//#include <boost/parameter/parameters.hpp>
 #include <boost/preprocessor/repetition/repeat_from_to.hpp>
 #include <boost/preprocessor/repetition/enum_params.hpp>
 #include <boost/preprocessor/repetition/enum_binary_params.hpp>
@@ -71,16 +70,6 @@ namespace detail
     {
         return accumulator_visitor<Args>(args);
     }
-
-#if 0
-    typedef
-        parameter::parameters<
-            parameter::required<tag::accumulator>
-          , parameter::optional<tag::sample>
-          // ... and others which are not specified here...
-        >
-    accumulator_params;
-#endif
 
     ///////////////////////////////////////////////////////////////////////////////
     // accumulator_set_base
@@ -233,7 +222,8 @@ struct accumulator_set
     ) : accumulators(                                                                   \
             detail::make_acc_list(                                                      \
                 accumulators_mpl_vector()                                               \
-              , (boost::accumulators::accumulator = *this                               \
+              , (                                                                       \
+                    boost::accumulators::accumulator = *this                            \
                     BOOST_PP_ENUM_TRAILING_PARAMS_Z(z, n, a)                            \
                 )                                                                       \
             )                                                                           \
@@ -337,7 +327,8 @@ struct accumulator_set
     {                                                                                   \
         this->visit(                                                                    \
             detail::make_accumulator_visitor(                                           \
-                (boost::accumulators::accumulator = *this                               \
+                (                                                                       \
+                    boost::accumulators::accumulator = *this                            \
                     BOOST_PP_ENUM_TRAILING_PARAMS_Z(z, n, a)                            \
                 )                                                                       \
             )                                                                           \
