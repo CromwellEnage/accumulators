@@ -1,15 +1,14 @@
 //  (C) Copyright Eric Niebler 2005.
-//  Use, modification and distribution are subject to the
-//  Boost Software License, Version 1.0. (See accompanying file
-//  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+//  Distributed under the Boost Software License, Version 1.0.
+//  (See accompanying file LICENSE_1_0.txt or copy at
+//  http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/test/unit_test.hpp>
+#include <boost/core/lightweight_test.hpp>
 #include <boost/accumulators/accumulators.hpp>
 #include <boost/accumulators/statistics/stats.hpp>
 #include <boost/accumulators/statistics/mean.hpp>
 
 using namespace boost;
-using namespace unit_test;
 using namespace accumulators;
 
 namespace my
@@ -30,8 +29,8 @@ void test_stat()
     int &ref1 = accumulators::reference<int, my::tag::int_ref>(acc);
     int &ref2 = accumulators::reference_tag<my::tag::int_ref>(acc);
 
-    BOOST_CHECK_EQUAL(&i, &ref1);
-    BOOST_CHECK_EQUAL(&i, &ref2);
+    BOOST_TEST_EQ(&i, &ref1);
+    BOOST_TEST_EQ(&i, &ref2);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -53,8 +52,8 @@ void test_external()
     sum_acc(1);
     sum_acc(2); // sum is now 3 for both
 
-    BOOST_CHECK_EQUAL(sum(acc_with_ref), sum(sum_acc));
-    BOOST_CHECK_EQUAL(sum(acc_with_ref), 3);
+    BOOST_TEST_EQ(sum(acc_with_ref), sum(sum_acc));
+    BOOST_TEST_EQ(sum(acc_with_ref), 3);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -76,20 +75,17 @@ void test_external2()
     sum_acc(1);
     sum_acc(2); // sum is now 3 for both
 
-    BOOST_CHECK_EQUAL(sum(acc_with_ref), sum(sum_acc));
-    BOOST_CHECK_EQUAL(sum(acc_with_ref), 3);
+    BOOST_TEST_EQ(sum(acc_with_ref), sum(sum_acc));
+    BOOST_TEST_EQ(sum(acc_with_ref), 3);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // init_unit_test_suite
 //
-test_suite* init_unit_test_suite( int argc, char* argv[] )
+int main( int argc, char* argv[] )
 {
-    test_suite *test = BOOST_TEST_SUITE("reference_accumulator test");
-
-    test->add(BOOST_TEST_CASE(&test_stat));
-    test->add(BOOST_TEST_CASE(&test_external));
-    test->add(BOOST_TEST_CASE(&test_external2));
-
-    return test;
+    test_stat();
+    test_external();
+    test_external2();
+    return boost::report_errors();
 }

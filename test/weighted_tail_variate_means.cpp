@@ -1,7 +1,7 @@
 //  (C) Copyright 2006 Eric Niebler, Olivier Gygi.
-//  Use, modification and distribution are subject to the
-//  Boost Software License, Version 1.0. (See accompanying file
-//  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+//  Distributed under the Boost Software License, Version 1.0.
+//  (See accompanying file LICENSE_1_0.txt or copy at
+//  http://www.boost.org/LICENSE_1_0.txt)
 
 // Test case for weighted_tail_variate_means.hpp
 
@@ -10,15 +10,13 @@
 #define BOOST_NUMERIC_FUNCTIONAL_STD_VECTOR_SUPPORT
 
 #include <boost/random.hpp>
-#include <boost/test/unit_test.hpp>
-#include <boost/test/floating_point_comparison.hpp>
+#include <boost/core/lightweight_test.hpp>
 #include <boost/accumulators/accumulators.hpp>
 #include <boost/accumulators/statistics/variates/covariate.hpp>
 #include <boost/accumulators/statistics.hpp>
 #include <boost/accumulators/statistics/weighted_tail_variate_means.hpp>
 
 using namespace boost;
-using namespace unit_test;
 using namespace boost::accumulators;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -77,55 +75,52 @@ void test_stat()
     acc4( 20., weight = 1.2, covariate1 = cov5);
 
     // check relative risk contributions
-    BOOST_CHECK_EQUAL( *(relative_weighted_tail_variate_means(acc1, quantile_probability = 0.7).begin()    ), (0.8*10 + 1.0*46)/(0.8*100 + 1.0*200) );
-    BOOST_CHECK_EQUAL( *(relative_weighted_tail_variate_means(acc1, quantile_probability = 0.7).begin() + 1), (0.8*20 + 1.0*64)/(0.8*100 + 1.0*200) );
-    BOOST_CHECK_EQUAL( *(relative_weighted_tail_variate_means(acc1, quantile_probability = 0.7).begin() + 2), (0.8*30 + 1.0*40)/(0.8*100 + 1.0*200) );
-    BOOST_CHECK_EQUAL( *(relative_weighted_tail_variate_means(acc1, quantile_probability = 0.7).begin() + 3), (0.8*40 + 1.0*50)/(0.8*100 + 1.0*200) );
-    BOOST_CHECK_EQUAL( *(relative_weighted_tail_variate_means(acc3, quantile_probability = 0.3).begin()    ), (0.9*26 + 1.2*2)/(0.9*50 + 1.2*20) );
-    BOOST_CHECK_EQUAL( *(relative_weighted_tail_variate_means(acc3, quantile_probability = 0.3).begin() + 1), (0.9*4 + 1.2*2)/(0.9*50 + 1.2*20) );
-    BOOST_CHECK_EQUAL( *(relative_weighted_tail_variate_means(acc3, quantile_probability = 0.3).begin() + 2), (0.9*17 + 1.2*2)/(0.9*50 + 1.2*20) );
-    BOOST_CHECK_EQUAL( *(relative_weighted_tail_variate_means(acc3, quantile_probability = 0.3).begin() + 3), (0.9*3 + 1.2*14)/(0.9*50 + 1.2*20) );
+    BOOST_TEST_EQ( *(relative_weighted_tail_variate_means(acc1, quantile_probability = 0.7).begin()    ), (0.8*10 + 1.0*46)/(0.8*100 + 1.0*200) );
+    BOOST_TEST_EQ( *(relative_weighted_tail_variate_means(acc1, quantile_probability = 0.7).begin() + 1), (0.8*20 + 1.0*64)/(0.8*100 + 1.0*200) );
+    BOOST_TEST_EQ( *(relative_weighted_tail_variate_means(acc1, quantile_probability = 0.7).begin() + 2), (0.8*30 + 1.0*40)/(0.8*100 + 1.0*200) );
+    BOOST_TEST_EQ( *(relative_weighted_tail_variate_means(acc1, quantile_probability = 0.7).begin() + 3), (0.8*40 + 1.0*50)/(0.8*100 + 1.0*200) );
+    BOOST_TEST_EQ( *(relative_weighted_tail_variate_means(acc3, quantile_probability = 0.3).begin()    ), (0.9*26 + 1.2*2)/(0.9*50 + 1.2*20) );
+    BOOST_TEST_EQ( *(relative_weighted_tail_variate_means(acc3, quantile_probability = 0.3).begin() + 1), (0.9*4 + 1.2*2)/(0.9*50 + 1.2*20) );
+    BOOST_TEST_EQ( *(relative_weighted_tail_variate_means(acc3, quantile_probability = 0.3).begin() + 2), (0.9*17 + 1.2*2)/(0.9*50 + 1.2*20) );
+    BOOST_TEST_EQ( *(relative_weighted_tail_variate_means(acc3, quantile_probability = 0.3).begin() + 3), (0.9*3 + 1.2*14)/(0.9*50 + 1.2*20) );
 
     // check absolute risk contributions
-    BOOST_CHECK_EQUAL( *(weighted_tail_variate_means(acc2, quantile_probability = 0.7).begin()    ), (0.8*10 + 1.0*46)/1.8 );
-    BOOST_CHECK_EQUAL( *(weighted_tail_variate_means(acc2, quantile_probability = 0.7).begin() + 1), (0.8*20 + 1.0*64)/1.8 );
-    BOOST_CHECK_EQUAL( *(weighted_tail_variate_means(acc2, quantile_probability = 0.7).begin() + 2), (0.8*30 + 1.0*40)/1.8 );
-    BOOST_CHECK_EQUAL( *(weighted_tail_variate_means(acc2, quantile_probability = 0.7).begin() + 3), (0.8*40 + 1.0*50)/1.8 );
-    BOOST_CHECK_EQUAL( *(weighted_tail_variate_means(acc4, quantile_probability = 0.3).begin()    ), (0.9*26 + 1.2*2)/2.1 );
-    BOOST_CHECK_EQUAL( *(weighted_tail_variate_means(acc4, quantile_probability = 0.3).begin() + 1), (0.9*4 + 1.2*2)/2.1 );
-    BOOST_CHECK_EQUAL( *(weighted_tail_variate_means(acc4, quantile_probability = 0.3).begin() + 2), (0.9*17 + 1.2*2)/2.1 );
-    BOOST_CHECK_EQUAL( *(weighted_tail_variate_means(acc4, quantile_probability = 0.3).begin() + 3), (0.9*3 + 1.2*14)/2.1 );
+    BOOST_TEST_EQ( *(weighted_tail_variate_means(acc2, quantile_probability = 0.7).begin()    ), (0.8*10 + 1.0*46)/1.8 );
+    BOOST_TEST_EQ( *(weighted_tail_variate_means(acc2, quantile_probability = 0.7).begin() + 1), (0.8*20 + 1.0*64)/1.8 );
+    BOOST_TEST_EQ( *(weighted_tail_variate_means(acc2, quantile_probability = 0.7).begin() + 2), (0.8*30 + 1.0*40)/1.8 );
+    BOOST_TEST_EQ( *(weighted_tail_variate_means(acc2, quantile_probability = 0.7).begin() + 3), (0.8*40 + 1.0*50)/1.8 );
+    BOOST_TEST_EQ( *(weighted_tail_variate_means(acc4, quantile_probability = 0.3).begin()    ), (0.9*26 + 1.2*2)/2.1 );
+    BOOST_TEST_EQ( *(weighted_tail_variate_means(acc4, quantile_probability = 0.3).begin() + 1), (0.9*4 + 1.2*2)/2.1 );
+    BOOST_TEST_EQ( *(weighted_tail_variate_means(acc4, quantile_probability = 0.3).begin() + 2), (0.9*17 + 1.2*2)/2.1 );
+    BOOST_TEST_EQ( *(weighted_tail_variate_means(acc4, quantile_probability = 0.3).begin() + 3), (0.9*3 + 1.2*14)/2.1 );
 
     // check relative risk contributions
-    BOOST_CHECK_EQUAL( *(relative_weighted_tail_variate_means(acc1, quantile_probability = 0.9).begin()    ), 1.0*46/(1.0*200) );
-    BOOST_CHECK_EQUAL( *(relative_weighted_tail_variate_means(acc1, quantile_probability = 0.9).begin() + 1), 1.0*64/(1.0*200) );
-    BOOST_CHECK_EQUAL( *(relative_weighted_tail_variate_means(acc1, quantile_probability = 0.9).begin() + 2), 1.0*40/(1.0*200) );
-    BOOST_CHECK_EQUAL( *(relative_weighted_tail_variate_means(acc1, quantile_probability = 0.9).begin() + 3), 1.0*50/(1.0*200) );
-    BOOST_CHECK_EQUAL( *(relative_weighted_tail_variate_means(acc3, quantile_probability = 0.1).begin()    ), 1.2*2/(1.2*20) );
-    BOOST_CHECK_EQUAL( *(relative_weighted_tail_variate_means(acc3, quantile_probability = 0.1).begin() + 1), 1.2*2/(1.2*20) );
-    BOOST_CHECK_EQUAL( *(relative_weighted_tail_variate_means(acc3, quantile_probability = 0.1).begin() + 2), 1.2*2/(1.2*20) );
-    BOOST_CHECK_EQUAL( *(relative_weighted_tail_variate_means(acc3, quantile_probability = 0.1).begin() + 3), 1.2*14/(1.2*20) );
+    BOOST_TEST_EQ( *(relative_weighted_tail_variate_means(acc1, quantile_probability = 0.9).begin()    ), 1.0*46/(1.0*200) );
+    BOOST_TEST_EQ( *(relative_weighted_tail_variate_means(acc1, quantile_probability = 0.9).begin() + 1), 1.0*64/(1.0*200) );
+    BOOST_TEST_EQ( *(relative_weighted_tail_variate_means(acc1, quantile_probability = 0.9).begin() + 2), 1.0*40/(1.0*200) );
+    BOOST_TEST_EQ( *(relative_weighted_tail_variate_means(acc1, quantile_probability = 0.9).begin() + 3), 1.0*50/(1.0*200) );
+    BOOST_TEST_EQ( *(relative_weighted_tail_variate_means(acc3, quantile_probability = 0.1).begin()    ), 1.2*2/(1.2*20) );
+    BOOST_TEST_EQ( *(relative_weighted_tail_variate_means(acc3, quantile_probability = 0.1).begin() + 1), 1.2*2/(1.2*20) );
+    BOOST_TEST_EQ( *(relative_weighted_tail_variate_means(acc3, quantile_probability = 0.1).begin() + 2), 1.2*2/(1.2*20) );
+    BOOST_TEST_EQ( *(relative_weighted_tail_variate_means(acc3, quantile_probability = 0.1).begin() + 3), 1.2*14/(1.2*20) );
 
     // check absolute risk contributions
-    BOOST_CHECK_EQUAL( *(weighted_tail_variate_means(acc2, quantile_probability = 0.9).begin()    ), 1.0*46/1.0 );
-    BOOST_CHECK_EQUAL( *(weighted_tail_variate_means(acc2, quantile_probability = 0.9).begin() + 1), 1.0*64/1.0 );
-    BOOST_CHECK_EQUAL( *(weighted_tail_variate_means(acc2, quantile_probability = 0.9).begin() + 2), 1.0*40/1.0 );
-    BOOST_CHECK_EQUAL( *(weighted_tail_variate_means(acc2, quantile_probability = 0.9).begin() + 3), 1.0*50/1.0 );
-    BOOST_CHECK_EQUAL( *(weighted_tail_variate_means(acc4, quantile_probability = 0.1).begin()    ), 1.2*2/1.2 );
-    BOOST_CHECK_EQUAL( *(weighted_tail_variate_means(acc4, quantile_probability = 0.1).begin() + 1), 1.2*2/1.2 );
-    BOOST_CHECK_EQUAL( *(weighted_tail_variate_means(acc4, quantile_probability = 0.1).begin() + 2), 1.2*2/1.2 );
-    BOOST_CHECK_EQUAL( *(weighted_tail_variate_means(acc4, quantile_probability = 0.1).begin() + 3), 1.2*14/1.2 );
+    BOOST_TEST_EQ( *(weighted_tail_variate_means(acc2, quantile_probability = 0.9).begin()    ), 1.0*46/1.0 );
+    BOOST_TEST_EQ( *(weighted_tail_variate_means(acc2, quantile_probability = 0.9).begin() + 1), 1.0*64/1.0 );
+    BOOST_TEST_EQ( *(weighted_tail_variate_means(acc2, quantile_probability = 0.9).begin() + 2), 1.0*40/1.0 );
+    BOOST_TEST_EQ( *(weighted_tail_variate_means(acc2, quantile_probability = 0.9).begin() + 3), 1.0*50/1.0 );
+    BOOST_TEST_EQ( *(weighted_tail_variate_means(acc4, quantile_probability = 0.1).begin()    ), 1.2*2/1.2 );
+    BOOST_TEST_EQ( *(weighted_tail_variate_means(acc4, quantile_probability = 0.1).begin() + 1), 1.2*2/1.2 );
+    BOOST_TEST_EQ( *(weighted_tail_variate_means(acc4, quantile_probability = 0.1).begin() + 2), 1.2*2/1.2 );
+    BOOST_TEST_EQ( *(weighted_tail_variate_means(acc4, quantile_probability = 0.1).begin() + 3), 1.2*14/1.2 );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // init_unit_test_suite
 //
-test_suite* init_unit_test_suite( int argc, char* argv[] )
+int main( int argc, char* argv[] )
 {
-    test_suite *test = BOOST_TEST_SUITE("weighted_tail_variate_means test");
-
-    test->add(BOOST_TEST_CASE(&test_stat));
-
-    return test;
+    test_stat();
+    return boost::report_errors();
 }
 
