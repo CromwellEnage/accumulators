@@ -90,6 +90,7 @@ alias accumulators_test_valarray
 
 alias accumulators_test_valarray
     : [ run valarray.cpp ]
+    : <link>static
     ;
 
 alias accumulators_test_tail_variate_means
@@ -101,6 +102,7 @@ alias accumulators_test_tail_variate_means
 
 alias accumulators_test_tail_variate_means
     : [ run tail_variate_means.cpp ]
+    : <link>static
     ;
 
 alias accumulators_tests_that_fail_with_gcc4_4
@@ -118,6 +120,7 @@ alias accumulators_tests_that_fail_with_gcc4_4
       [ run weighted_pot_quantile.cpp ]
       [ run weighted_tail_mean.cpp ]
       [ run weighted_tail_quantile.cpp ]
+    : <link>static
     ;
 
 alias accumulators_test_weighted_tail_variate_means
@@ -137,6 +140,7 @@ alias accumulators_test_weighted_tail_variate_means
 
 alias accumulators_test_weighted_tail_variate_means
     : [ run weighted_tail_variate_means.cpp ]
+    : <link>static
     ;
 
 test-suite "accumulators"
