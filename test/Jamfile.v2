@@ -17,8 +17,6 @@ feature.compose <iterator_debugging>off
 
 project
     : requirements
-      <library>/boost/test//boost_unit_test_framework
-      <link>static
       <include>../../..
       <toolset>msvc:<define>_SCL_SECURE_NO_DEPRECATE
       # MSVC's iterator debugging causes some tests to run forever.
@@ -27,6 +25,7 @@ project
       # MSVC's cl throws command line error D8021 : invalid numeric argument
 #      <cxxflags>"-Wno-deprecated-declarations"
       <library>/boost/serialization
+      <library>/boost/test//boost_unit_test_framework
     ;
 
 alias accumulators_regular_tests
@@ -78,31 +77,26 @@ alias accumulators_test_valarray
     :
     : <target-os>linux
       <toolset>clang
-      <link>static
 # TODO: Find the correct attribute that detects libc++.
     ;
 
 alias accumulators_test_valarray
     :
     : <target-os>darwin
-      <link>static
     ;
 
 alias accumulators_test_valarray
     : [ run valarray.cpp ]
-    : <link>static
     ;
 
 alias accumulators_test_tail_variate_means
     :
     : <toolset>msvc
       <toolset-msvc:version>14.0
-      <link>static
     ;
 
 alias accumulators_test_tail_variate_means
     : [ run tail_variate_means.cpp ]
-    : <link>static
     ;
 
 alias accumulators_tests_that_fail_with_gcc4_4
@@ -110,7 +104,6 @@ alias accumulators_tests_that_fail_with_gcc4_4
     : <target-os>linux
       <toolset>gcc
       <toolset-gcc:version>4.4.7
-      <link>static
     ;
 
 alias accumulators_tests_that_fail_with_gcc4_4
@@ -120,7 +113,6 @@ alias accumulators_tests_that_fail_with_gcc4_4
       [ run weighted_pot_quantile.cpp ]
       [ run weighted_tail_mean.cpp ]
       [ run weighted_tail_quantile.cpp ]
-    : <link>static
     ;
 
 alias accumulators_test_weighted_tail_variate_means
@@ -128,19 +120,16 @@ alias accumulators_test_weighted_tail_variate_means
     : <target-os>linux
       <toolset>gcc
       <toolset-gcc:version>4.4.7
-      <link>static
     ;
 
 alias accumulators_test_weighted_tail_variate_means
     :
     : <toolset>msvc
       <toolset-msvc:version>14.0
-      <link>static
     ;
 
 alias accumulators_test_weighted_tail_variate_means
     : [ run weighted_tail_variate_means.cpp ]
-    : <link>static
     ;
 
 test-suite "accumulators"
