@@ -17,15 +17,15 @@ feature.compose <iterator_debugging>off
 
 project
     : requirements
-      <include>../../..
+      <library>/boost/serialization
+      <library>/boost/test//boost_unit_test_framework
+      <link>static
       <toolset>msvc:<define>_SCL_SECURE_NO_DEPRECATE
       # MSVC's iterator debugging causes some tests to run forever.
       <toolset>msvc:<iterator_debugging>off
       <toolset>intel-win:<iterator_debugging>off
       # MSVC's cl throws command line error D8021 : invalid numeric argument
 #      <cxxflags>"-Wno-deprecated-declarations"
-      <library>/boost/serialization
-      <library>/boost/test//boost_unit_test_framework
     ;
 
 alias accumulators_regular_tests
